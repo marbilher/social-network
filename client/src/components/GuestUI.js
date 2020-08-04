@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 // import TextField from '@material-ui/core/TextField';
 import ChatTextField from './ChatTextField'
+import ChatMessageDisplay from './ChatMessageDisplay'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,14 +29,20 @@ const useStyles = makeStyles((theme) => ({
 
 function GuestUI() {
   const classes = useStyles();
-  const [ inputFieldText, setInputFieldText] = React.useState("Chat");
+  const [ inputFieldText, setInputFieldText] = React.useState("");
+  const [ userIdentification, setUserIdentification] = React.useState(localStorage.getItem('tempID'));
+
   const [ messages, setMessages ] = React.useState([])
   const [ currentlyOnline, setCurrentlyOnline ] = React.useState([])
 
 
 
   function chatSubmit() {
-    setMessages(messages => [...messages, inputFieldText])
+    let newChat = {
+        userIdentification: userIdentification,
+        text: inputFieldText
+    }
+    setMessages(messages => [...messages, newChat])
     setInputFieldText("")
     console.log(messages)
   }
@@ -44,9 +51,7 @@ function GuestUI() {
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={9}>
-          <Paper className={classes.tall} 
-          variant="outlined">
-          </Paper>
+          <ChatMessageDisplay classes={classes} messages={messages}/>
         </Grid>
         <Grid item xs={3} sm={3}>
           <Paper className={classes.tall}
