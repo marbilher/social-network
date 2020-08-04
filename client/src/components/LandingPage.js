@@ -26,13 +26,13 @@ function LandingPage() {
     <div className="App-header">
       <h1 className={classes.header}>Greater  <br/> Than <br/> Three</h1>
       <header >
-        <Button className={classes.button} variant="contained"  color="primary" component={Link} to="/login">
+        <Button className={classes.button} variant="outlined"  color="primary" component={Link} to="/login">
             Log-in
         </Button>
-        <Button className={classes.button} variant="contained"  color="secondary" component={Link} to="/signup">
+        <Button className={classes.button} variant="outlined"  color="secondary" component={Link} to="/signup">
             Sign up
         </Button>
-        <Button className={classes.button} variant="contained"  color="default" component={Link} to="/guest">
+        <Button className={classes.button} variant="outlined"  color="default" component={Link} to="/guestui">
             Guest
         </Button>
       </header>

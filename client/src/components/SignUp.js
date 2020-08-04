@@ -62,7 +62,7 @@ function SignUp() {
       </div>
 
       <Button
-        variant="contained"
+        variant="outlined"
         color="primary"
         className={classes.button}
         startIcon={<SendIcon />}
