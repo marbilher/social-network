@@ -5,6 +5,8 @@ import Grid from '@material-ui/core/Grid';
 // import TextField from '@material-ui/core/TextField';
 import ChatTextField from './ChatTextField'
 import ChatMessageDisplay from './ChatMessageDisplay'
+import io from 'socket.io-client';
+ 
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,9 +37,13 @@ function GuestUI() {
   const [ messages, setMessages ] = React.useState([])
   const [ currentlyOnline, setCurrentlyOnline ] = React.useState([])
 
+  const socket = io('http://localhost:8080');
+  socket.emit('hello', 'can you hear me?');
 
 
   function chatSubmit() {
+    socket.emit('hello', 'can you hear me?');
+
     let newChat = {
         userIdentification: userIdentification,
         text: inputFieldText

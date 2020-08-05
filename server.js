@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const socket = require('socket.io')
 require('dotenv').config()
 
 app.use(bodyParser.json());
@@ -35,6 +36,26 @@ app.use(function(req, res, next) {
 
 const port = process.env.PORT || 8080;
 
-app.listen(port, function() {
+const server = app.listen(port, function() {
   console.log(`Server listening on PORT ${port}!`);
 });
+
+const io = socket(server);
+io.sockets.on('connection', newConnection);
+io.sockets.on('hello', helloConnection);
+
+function helloConnection(socket) {
+  console.log(socket.id + " said hi.")
+}
+
+
+io.on('connection', function(socket){    
+  socket.on('hello', function(data){
+      // io.emit('chat', data);  
+      console.log(data)
+  });
+});
+
+function newConnection(socket) {
+  console.log(socket.id + " connected.")
+}
