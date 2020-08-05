@@ -1,12 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 // import TextField from '@material-ui/core/TextField';
 import ChatTextField from './ChatTextField'
 import ChatMessageDisplay from './ChatMessageDisplay'
 import io from 'socket.io-client';
- 
+import ChatCurrentlyOnline from './ChatCurrentlyOnline'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,22 +34,30 @@ function GuestUI() {
   const [ userIdentification, setUserIdentification] = React.useState(localStorage.getItem('tempID'));
 
   const [ messages, setMessages ] = React.useState([])
-  const [ currentlyOnline, setCurrentlyOnline ] = React.useState([])
+  const [ currentlyOnline, setCurrentlyOnline ] = React.useState([userIdentification])
 
   const socket = io('http://localhost:8080');
-  socket.emit('hello', 'can you hear me?');
 
+  socket.on('newMessage', function(data){
+      console.log('received from server ' + JSON.stringify(data))
+        setMessages(messages => [...messages, data])
+        setInputFieldText("")
+  })
+
+  socket.on('currentlyOnline', function(data) {
+
+    if(!currentlyOnline.includes(data.userIdentification)) {
+        setCurrentlyOnline(user => [...user, data.userIdentification])
+    }
+    
+  })
 
   function chatSubmit() {
-    socket.emit('hello', 'can you hear me?');
-
-    let newChat = {
+    let newMessage = {
         userIdentification: userIdentification,
         text: inputFieldText
     }
-    setMessages(messages => [...messages, newChat])
-    setInputFieldText("")
-    console.log(messages)
+    socket.emit('newMessage', newMessage);
   }
 
   return (
@@ -60,9 +67,7 @@ function GuestUI() {
           <ChatMessageDisplay classes={classes} messages={messages}/>
         </Grid>
         <Grid item xs={3} sm={3}>
-          <Paper className={classes.tall}
-          variant="outlined">
-          </Paper>
+          <ChatCurrentlyOnline currentlyOnline={currentlyOnline}/>
         </Grid>
         <Grid item xs={12} sm={12}>
             <ChatTextField 

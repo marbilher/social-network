@@ -47,7 +47,7 @@ function LandingPage() {
         <Button className={classes.button} variant="outlined"  color="secondary" component={Link} to="/signup">
             Sign up
         </Button>
-        <Button onClick={guestJoin} className={classes.button} variant="outlined"  color="default" component={Link} to="/guestui">
+        <Button onClick={() => guestJoin()} className={classes.button} variant="outlined"  color="default" component={Link} to="/guestui">
             Guest
         </Button>
       </header>

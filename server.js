@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const socket = require('socket.io')
+const { v4: uuidv4 } = require('uuid');
 require('dotenv').config()
 
 app.use(bodyParser.json());
@@ -40,22 +40,24 @@ const server = app.listen(port, function() {
   console.log(`Server listening on PORT ${port}!`);
 });
 
-const io = socket(server);
-io.sockets.on('connection', newConnection);
-io.sockets.on('hello', helloConnection);
+//Websockets
+const io = require('socket.io')(server);
 
-function helloConnection(socket) {
-  console.log(socket.id + " said hi.")
-}
+io.sockets.on('connection',
+  function (socket) {
+     console.log(socket.id + " connected.")
 
-
-io.on('connection', function(socket){    
-  socket.on('hello', function(data){
+     socket.on('newMessage', function(data){
       // io.emit('chat', data);  
-      console.log(data)
-  });
-});
+      console.log(JSON.stringify(data))
+      console.log(data.userIdentification + " sent: " + data.text) //where to store all of currently online
+      data.uniqueID = uuidv4()
+      io.sockets.emit('newMessage', data)
+    });
+    
+    socket.on('disconnect', function() {
+      console.log("Client has disconnected");
+    });
 
-function newConnection(socket) {
-  console.log(socket.id + " connected.")
-}
+  }
+);

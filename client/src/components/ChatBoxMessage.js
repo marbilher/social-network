@@ -1,7 +1,4 @@
 import React from 'react';
-import { red } from '@material-ui/core/colors';
-
-
 
 function ChatBoxMessage(props) {
 
