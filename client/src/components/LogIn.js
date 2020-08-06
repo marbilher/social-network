@@ -10,55 +10,48 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import SendIcon from '@material-ui/icons/Send';
 import Button from '@material-ui/core/Button';
 
-
-const useStyles = makeStyles((theme) => ({
-  margin: {
-    margin: theme.spacing(1),
-  },
-  button: {
-    marginTop: 20
-  }
+const useStyles = makeStyles(theme => ({
+    margin: {
+        margin: theme.spacing(1),
+    },
+    button: {
+        marginTop: 20,
+    },
 }));
 
 function Login() {
-  const classes = useStyles();
+    const classes = useStyles();
 
-  return (
-    <div class="App-header">
-      <FormControl className={classes.margin}>
-        <InputLabel htmlFor="input-with-icon-adornment">Email</InputLabel>
-        <Input
-          id="input-with-icon-adornment"
-          startAdornment={
-            <InputAdornment position="start">
-              <MailOutlineIcon />
-            </InputAdornment>
-          }
-        />
-      </FormControl>
-      <TextField
-        className={classes.margin}
-        id="input-with-icon-textfield"
-        label="Password"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <VisibilityOffIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <Button
-        variant="outlined"
-        color="primary"
-        className={classes.button}
-        startIcon={<SendIcon />}
-      >
-        Log in
-      </Button>
-
-    </div>
-  );
+    return (
+        <div class="App-header">
+            <FormControl className={classes.margin}>
+                <InputLabel htmlFor="input-with-icon-adornment">Email</InputLabel>
+                <Input
+                    id="input-with-icon-adornment"
+                    startAdornment={
+                        <InputAdornment position="start">
+                            <MailOutlineIcon />
+                        </InputAdornment>
+                    }
+                />
+            </FormControl>
+            <TextField
+                className={classes.margin}
+                id="input-with-icon-textfield"
+                label="Password"
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <VisibilityOffIcon />
+                        </InputAdornment>
+                    ),
+                }}
+            />
+            <Button variant="outlined" color="primary" className={classes.button} startIcon={<SendIcon />}>
+                Log in
+            </Button>
+        </div>
+    );
 }
 
 export default Login;
