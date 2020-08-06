@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import SendIcon from '@material-ui/icons/Send';
 import Button from '@material-ui/core/Button';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     margin: {
         margin: theme.spacing(1),
     },
@@ -21,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 function Login() {
     const classes = useStyles();
+    let [showPassword, setShowPassword] = useState(true);
 
     return (
         <div class="App-header">
@@ -39,10 +42,16 @@ function Login() {
                 className={classes.margin}
                 id="input-with-icon-textfield"
                 label="Password"
+                type={showPassword ? 'password' : 'text'}
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">
-                            <VisibilityOffIcon />
+                            <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
                         </InputAdornment>
                     ),
                 }}

@@ -7,7 +7,7 @@ import ChatMessageDisplay from './ChatMessageDisplay';
 import io from 'socket.io-client';
 import ChatCurrentlyOnline from './ChatCurrentlyOnline';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         padding: theme.spacing(2),
@@ -37,15 +37,15 @@ function GuestUI() {
 
     const socket = io('http://localhost:8080');
 
-    socket.on('newMessage', function(data) {
+    socket.on('newMessage', function (data) {
         console.log('received from server ' + JSON.stringify(data));
-        setMessages(messages => [...messages, data]);
+        setMessages((messages) => [...messages, data]);
         setInputFieldText('');
     });
 
-    socket.on('currentlyOnline', function(data) {
+    socket.on('currentlyOnline', function (data) {
         if (!currentlyOnline.includes(data.userIdentification)) {
-            setCurrentlyOnline(user => [...user, data.userIdentification]);
+            setCurrentlyOnline((user) => [...user, data.userIdentification]);
         }
     });
 

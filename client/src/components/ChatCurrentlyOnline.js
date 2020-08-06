@@ -9,7 +9,7 @@ function ChatCurrentlyOnline(props) {
 
     return (
         <Paper className={userName} variant="outlined">
-            {props.currentlyOnline.map(user => {
+            {props.currentlyOnline.map((user) => {
                 return <p>{user}</p>;
             })}
         </Paper>

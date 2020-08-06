@@ -6,7 +6,7 @@ import ChatBoxMessage from './ChatBoxMessage';
 function ChatMessageDisplay(props) {
     return (
         <Paper className={props.classes.tall} variant="outlined">
-            {props.messages.map(message => {
+            {props.messages.map((message) => {
                 return <ChatBoxMessage message={message} key={message.uniqueID} />;
             })}
         </Paper>

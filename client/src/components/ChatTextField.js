@@ -10,8 +10,8 @@ function ChatTextField(props) {
             rows={4}
             style={{ width: '100%', height: '30%' }}
             value={props.inputFieldText}
-            onChange={e => props.setInputFieldText(e.target.value)}
-            onKeyPress={ev => {
+            onChange={(e) => props.setInputFieldText(e.target.value)}
+            onKeyPress={(ev) => {
                 if (ev.key === 'Enter') {
                     props.chatSubmit();
                 }
