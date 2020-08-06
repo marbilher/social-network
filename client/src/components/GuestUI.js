@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 function GuestUI() {
     const classes = useStyles();
     const [inputFieldText, setInputFieldText] = React.useState('');
-    const [userIdentification, setUserIdentification] = React.useState(localStorage.getItem('tempID'));
+    const [userIdentification, _setUserIdentification] = React.useState(localStorage.getItem('tempID'));
 
     const [messages, setMessages] = React.useState([]);
     const [currentlyOnline, setCurrentlyOnline] = React.useState([userIdentification]);
