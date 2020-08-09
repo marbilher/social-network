@@ -44,9 +44,15 @@ const io = require('socket.io')(server);
 io.sockets.on('connection', function(socket) {
     console.log(socket.id + ' connected.');
 
+
+    socket.on('registerUserOnline', function(data) {
+        console.log('User: ' + data + ' has joined.');
+        socket.emit('currentlyOnline', data)
+    });
+
     socket.on('newMessage', function(data) {
         // io.emit('chat', data);
-        console.log(JSON.stringify(data));
+        // console.log(JSON.stringify(data));
         console.log(data.userIdentification + ' sent: ' + data.text); //where to store all of currently online
         data.uniqueID = uuidv4();
         io.sockets.emit('newMessage', data);
