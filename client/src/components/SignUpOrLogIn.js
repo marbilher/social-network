@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUpOrLogIn(props) {
-  let { isSigningUp } = props;
+    let { isSigningUp } = props;
     const classes = useStyles();
     let [showPassword, setShowPassword] = useState(true);
 

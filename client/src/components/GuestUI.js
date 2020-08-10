@@ -4,8 +4,10 @@ import Grid from '@material-ui/core/Grid';
 // import TextField from '@material-ui/core/TextField';
 import ChatTextField from './ChatTextField';
 import ChatMessageDisplay from './ChatMessageDisplay';
-import io from 'socket.io-client';
 import ChatCurrentlyOnline from './ChatCurrentlyOnline';
+import { socket } from '../util/ClientSocket';
+import { makeID } from '../util/GenerateID';
+import { useEffect } from 'react';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,31 +32,38 @@ const useStyles = makeStyles((theme) => ({
 function GuestUI() {
     const classes = useStyles();
     const [inputFieldText, setInputFieldText] = React.useState('');
-    const [userIdentification, _setUserIdentification] = React.useState(localStorage.getItem('tempID'));
+    const [userIdentification, _setUserIdentification] = React.useState('');
 
     const [messages, setMessages] = React.useState([]);
-    const [currentlyOnline, setCurrentlyOnline] = React.useState([userIdentification]);
+    const [currentlyOnline, setCurrentlyOnline] = React.useState([]);
 
-    const socket = io('http://localhost:8080');
+    useEffect(() => {
+        socket.on('serverEmitCurrentlyOnline', function (data) {
+            let newState = currentlyOnline;
+            if(!newState.includes(data)) {
+                newState.push(data)
+            }
+            setCurrentlyOnline(newState)
+        });
+    }, [currentlyOnline])
 
-    socket.on('newMessage', function (data) {
-        console.log('received from server ' + JSON.stringify(data));
-        setMessages((messages) => [...messages, data]);
-        setInputFieldText('');
-    });
-
-    socket.on('currentlyOnline', function (data) {
-        if (!currentlyOnline.includes(data.userIdentification)) {
-            setCurrentlyOnline((user) => [...user, data.userIdentification]);
-        }
-    });
+    useEffect(() => {
+        const tempID = makeID(10);  //Replace with cookies
+        localStorage.setItem('tempID', tempID);
+        _setUserIdentification(tempID);
+        socket.emit('clientRegisterUserOnline', tempID);
+        socket.on('serverSendNewMessage', function (data) {
+            setMessages((messages) => [...messages, data]);
+            setInputFieldText('');
+        });
+    }, []);
 
     function chatSubmit() {
         let newMessage = {
             userIdentification: userIdentification,
             text: inputFieldText,
         };
-        socket.emit('newMessage', newMessage);
+        socket.emit('clientSendNewMessage', newMessage);
     }
 
     return (
@@ -64,7 +73,7 @@ function GuestUI() {
                     <ChatMessageDisplay classes={classes} messages={messages} />
                 </Grid>
                 <Grid item xs={3} sm={3}>
-                    <ChatCurrentlyOnline currentlyOnline={currentlyOnline} />
+                    <ChatCurrentlyOnline classes={classes} currentlyOnline={currentlyOnline} />
                 </Grid>
                 <Grid item xs={12} sm={12}>
                     <ChatTextField

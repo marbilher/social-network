@@ -19,20 +19,6 @@ const useStyles = makeStyles((theme) => ({
 function LandingPage() {
     const classes = useStyles();
 
-    function guestJoin() {
-        localStorage.setItem('tempID', makeID(10));
-    }
-
-    function makeID(length) {
-        var result = '';
-        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var charactersLength = characters.length;
-        for (var i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-    }
-
     return (
         <div className="App-header">
             <h1 className={classes.header}>
@@ -46,7 +32,7 @@ function LandingPage() {
                     Sign up
                 </Button>
                 <Button
-                    onClick={() => guestJoin()}
+                    // onClick={() => guestJoin()}
                     className={classes.button}
                     variant="outlined"
                     color="default"
