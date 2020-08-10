@@ -41,21 +41,35 @@ const server = app.listen(port, function() {
 //Websockets
 const io = require('socket.io')(server);
 
+function serverEmitHeartbeat() {
+    let data = 'heartbeat'
+    let date = new Date();
+
+    setTimeout(() => {
+        setInterval(() => serverEmitHeartbeat(), 6000);
+        io.emit('serverEmitHeartbeat', data)
+    }, (60 - date.getSeconds()) * 100);
+ }
+
+
+serverEmitHeartbeat();
+
 io.sockets.on('connection', function(socket) {
     console.log(socket.id + ' connected.');
 
 
-    socket.on('registerUserOnline', function(data) {
+    socket.on('clientRegisterUserOnline', function(data) {
         console.log('User: ' + data + ' has joined.');
-        socket.emit('currentlyOnline', data)
+        socket.emit('serverEmitCurrentlyOnline', data)
     });
 
-    socket.on('newMessage', function(data) {
+    socket.on('clientSendNewMessage', function(data) {
         // io.emit('chat', data);
         // console.log(JSON.stringify(data));
+        io.sockets.emit('serverEmitCurrentlyOnline', data.userIdentification)
         console.log(data.userIdentification + ' sent: ' + data.text); //where to store all of currently online
         data.uniqueID = uuidv4();
-        io.sockets.emit('newMessage', data);
+        io.sockets.emit('serverSendNewMessage', data);
     });
 
     socket.on('disconnect', function() {

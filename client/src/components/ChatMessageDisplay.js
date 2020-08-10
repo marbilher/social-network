@@ -12,7 +12,6 @@ function ChatMessageDisplay(props) {
 
     return (
         <Paper
-            id="scrollingContainer"
             style={{ maxHeight: '100%', overflow: 'auto' }}
             className={props.classes.tall}
             variant="outlined"
