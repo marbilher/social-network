@@ -15,7 +15,7 @@ app.use(router);
 if (process.env.NODE_ENV === 'production') {
     console.log('Production');
     app.use(express.static('/build'));
-    app.get('*', function(req, res) {
+    app.get('*', function (req, res) {
         res.sendFile(path.join(__dirname, './client/build/index.html'));
     });
 } else {
@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
@@ -34,45 +34,40 @@ app.use(function(req, res, next) {
 
 const port = process.env.PORT || 8080;
 
-const server = app.listen(port, function() {
+const server = app.listen(port, function () {
     console.log(`Server listening on PORT ${port}!`);
 });
 
 //Websockets
 const io = require('socket.io')(server);
 
-function serverEmitHeartbeat() {
-    let data = 'heartbeat'
-    let date = new Date();
+// function serverEmitHeartbeat() {
+//     let data = 'heartbeat';
+//     let date = new Date();
 
-    setTimeout(() => {
-        setInterval(() => serverEmitHeartbeat(), 6000);
-        io.emit('serverEmitHeartbeat', data)
-    }, (60 - date.getSeconds()) * 100);
- }
+//     setTimeout(() => {
+//         setInterval(() => serverEmitHeartbeat(), 6000);
+//         io.emit('serverEmitHeartbeat', data);
+//     }, (60 - date.getSeconds()) * 100);
+// }
+// serverEmitHeartbeat();
 
-
-serverEmitHeartbeat();
-
-io.sockets.on('connection', function(socket) {
+io.sockets.on('connection', function (socket) {
     console.log(socket.id + ' connected.');
 
-
-    socket.on('clientRegisterUserOnline', function(data) {
+    socket.on('clientRegisterUserOnline', function (data) {
         console.log('User: ' + data + ' has joined.');
-        socket.emit('serverEmitCurrentlyOnline', data)
+        socket.emit('serverEmitCurrentlyOnline', data);
     });
 
-    socket.on('clientSendNewMessage', function(data) {
-        // io.emit('chat', data);
-        // console.log(JSON.stringify(data));
-        io.sockets.emit('serverEmitCurrentlyOnline', data.userIdentification)
-        console.log(data.userIdentification + ' sent: ' + data.text); //where to store all of currently online
+    socket.on('clientSendNewMessage', function (data) {
+        io.sockets.emit('serverEmitCurrentlyOnline', data.userIdentification);
+        console.log(data.userIdentification + ' sent: ' + data.text);
         data.uniqueID = uuidv4();
         io.sockets.emit('serverSendNewMessage', data);
     });
 
-    socket.on('disconnect', function() {
+    socket.on('disconnect', function () {
         console.log('Client has disconnected');
     });
 });

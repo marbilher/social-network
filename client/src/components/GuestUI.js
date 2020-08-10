@@ -37,20 +37,18 @@ function GuestUI() {
     const [messages, setMessages] = React.useState([]);
     const [currentlyOnline, setCurrentlyOnline] = React.useState([]);
 
-    useEffect(() => {   //this being updated
-        socket.on('serverEmitHeartbeat', function (data) {
-            console.log(data);
-            console.log(currentlyOnline.includes(data));
-            console.log(currentlyOnline);
-            if (!currentlyOnline.includes(data)) {
-                console.log('setting online');
-                setCurrentlyOnline((users) => users.concat(data));
+    useEffect(() => {
+        socket.on('serverEmitCurrentlyOnline', function (data) {
+            let newState = currentlyOnline;
+            if(!newState.includes(data)) {
+                newState.push(data)
             }
+            setCurrentlyOnline(newState)
         });
-    }, [messages])
+    }, [currentlyOnline])
 
     useEffect(() => {
-        const tempID = makeID(10);
+        const tempID = makeID(10);  //Replace with cookies
         localStorage.setItem('tempID', tempID);
         _setUserIdentification(tempID);
         socket.emit('clientRegisterUserOnline', tempID);
