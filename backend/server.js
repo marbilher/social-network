@@ -9,22 +9,28 @@ app.use(bodyParser.urlencoded());
 
 const path = require('path');
 
+if (process.env.NODE_ENV === 'Production') {
+    app.use(express.static('client/build'));
+    app.get('*', function (req, res) {
+        console.log(path.join(__dirname, '../client/build/index.html'))
+        res.sendFile(path.join(__dirname + '/..' +'/client/build/index.html'));
+    });
+
+//Create-react-app uses yarn buildpack to resolve %PUBLIC_URL%
+//Errors when serving index.html through node w/o build
+//https://stackoverflow.com/questions/50824024/urierror-failed-to-decode-param-public-url-favicon-ico
+
+// } else {     
+//     console.log('Development');
+//     app.use(express.static(path.join(__dirname, 'client/public/')));
+//     app.get('*', (req, res) => {
+//         res.sendFile(path.join(__dirname + '/..' +'/client/public/index.html'));
+//     });
+// }
+
+
 const router = require('./app/routes');
 app.use(router);
-
-if (process.env.NODE_ENV === 'production') {
-    console.log('Production');
-    app.use(express.static('/build'));
-    app.get('*', function (req, res) {
-        res.sendFile(path.join(__dirname, './client/build/index.html'));
-    });
-} else {
-    console.log('Development');
-    app.use(express.static(path.join(__dirname, 'client/public/')));
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname + './client/public/index.html'));
-    });
-}
 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
