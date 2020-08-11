@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded());
 
 const path = require('path');
 
-if (process.env.NODE_ENV === 'Production') {
+// if (process.env.NODE_ENV === 'Production') {
     app.use(express.static('client/build'));
     app.get('*', function (req, res) {
         console.log(path.join(__dirname, '../client/build/index.html'))
@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'Production') {
 //     app.get('*', (req, res) => {
 //         res.sendFile(path.join(__dirname + '/..' +'/client/public/index.html'));
 //     });
-}
+// }
 
 
 const router = require('./app/routes');
