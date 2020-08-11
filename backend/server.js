@@ -16,8 +16,8 @@ const path = require('path');
         res.sendFile(path.join(__dirname + '/..' +'/client/build/index.html'));
     });
 
-//Create-react-app uses yarn buildpack to resolve %PUBLIC_URL%
-//Errors when serving index.html through node w/o build
+//Create-react-app uses yarn buildpack to resolve %PUBLIC_URL% in index.html
+//Errors when serving index.html through node w/o having ran build
 //https://stackoverflow.com/questions/50824024/urierror-failed-to-decode-param-public-url-favicon-ico
 
 // } else {     
