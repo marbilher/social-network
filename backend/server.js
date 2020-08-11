@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'Production') {
 //     app.get('*', (req, res) => {
 //         res.sendFile(path.join(__dirname + '/..' +'/client/public/index.html'));
 //     });
-// }
+}
 
 
 const router = require('./app/routes');
