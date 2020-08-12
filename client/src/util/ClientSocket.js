@@ -1,4 +1,4 @@
 import io from 'socket.io-client';
-const port = process.env.PORT || 'http://localhost:8080';
+const port = process.env.PORT || 'https://gt3-social.herokuapp.com/';
 
 export const socket = io(port);

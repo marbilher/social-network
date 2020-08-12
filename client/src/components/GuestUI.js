@@ -54,7 +54,6 @@ function GuestUI() {
         socket.emit('clientRegisterUserOnline', tempID);
         socket.on('serverSendNewMessage', function (data) {
             setMessages((messages) => [...messages, data]);
-            setInputFieldText('');
         });
     }, []);
 
@@ -64,6 +63,7 @@ function GuestUI() {
             text: inputFieldText,
         };
         socket.emit('clientSendNewMessage', newMessage);
+        setInputFieldText('');
     }
 
     return (
