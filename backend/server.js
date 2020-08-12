@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded());
 
 const path = require('path');
 
-// if (process.env.NODE_ENV === 'Production') {
+// if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
     app.get('*', function (req, res) {
         console.log(path.join(__dirname, '../client/build/index.html'))
