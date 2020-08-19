@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-
+import '../App.css';
 import * as posenet_module from '../../node_modules/@tensorflow-models/posenet';
 import * as facemesh_module from '../../node_modules/@tensorflow-models/facemesh';
 import * as tf from '../../node_modules/@tensorflow/tfjs';
@@ -19,12 +19,6 @@ import boySVG from '../animation/resources/illustration/boy.svg';
 import abstractSVG from '../animation/resources/illustration/abstract.svg';
 import blathersSVG from '../animation/resources/illustration/blathers.svg';
 import tomNookSVG from '../animation/resources/illustration/tom-nook.svg';
-// const girlSVG = require('../animation/resources/illustration/girl.svg');
-// const boySVG = require('../animation/resources/illustration/boy.svg');
-// const abstractSVG = require('../animation/resources/illustration/abstract.svg');
-// const blathersSVG = require('../animation/resources/illustration/blathers.svg');
-// const tomNookSVG = require('../animation/resources/illustration/tom-nook.svg');
-
 
 function Camera() {
 
@@ -51,6 +45,7 @@ let nmsRadius = 30.0;
 // Misc
 let mobile = false;
 const stats = new Stats();
+
 const avatarSvgs = {
   'girl': girlSVG,
   'boy': boySVG,
@@ -123,6 +118,7 @@ function setupGui(cameras) {
   const gui = new dat.GUI({width: 300});
 
   let multi = gui.addFolder('Image');
+  console.log(guiState.avatarSVG)
   gui.add(guiState, 'avatarSVG', Object.keys(avatarSvgs)).onChange(() => parseSVG(avatarSvgs[guiState.avatarSVG]));
   multi.open();
 
@@ -144,14 +140,17 @@ function setupFPS() {
  * Feeds an image to posenet to estimate poses - this is where the magic
  * happens. This function loops with a requestAnimationFrame method.
  */
+let outputCanvas = useRef(null)
+
 function detectPoseInRealTime(video) {
-  const canvas = document.getElementById('output');
+  // const canvas = document.getElementById('output');
   const keypointCanvas = document.getElementById('keypoints');
-  const videoCtx = canvas.getContext('2d');
+  // console.log(outputCanvas.current.getContext('2d'))
+  const videoCtx = outputCanvas.current.getContext('2d');
   const keypointCtx = keypointCanvas.getContext('2d');
 
-  canvas.width = videoWidth;
-  canvas.height = videoHeight;
+  // outputCanvas.width = videoWidth;
+  // outputCanvas.height = videoHeight;
   keypointCanvas.width = videoWidth;
   keypointCanvas.height = videoHeight;
 
@@ -170,7 +169,7 @@ function detectPoseInRealTime(video) {
     videoCtx.restore();
 
     // Creates a tensor from an image
-    const input = tf.browser.fromPixels(canvas);
+    const input = tf.browser.fromPixels(outputCanvas.current);
     faceDetection = await facemesh.estimateFaces(input, false, false);
     let all_poses = await posenet.estimatePoses(video, {
       flipHorizontal: true,
@@ -230,7 +229,7 @@ function detectPoseInRealTime(video) {
 
   poseDetectionFrame();
 }
-let canvas = useRef(null)
+let illustrationCanvas = useRef(null)
 
 function setupCanvas() {
   mobile = isMobile();
@@ -246,9 +245,9 @@ function setupCanvas() {
 //   let canvas = document.querySelector('.illustration-canvas');;  //useRef
 //   canvas.width = canvasWidth;                                    //constrain to chat window
 //   canvas.height = canvasHeight;
-  console.log(canvasScope)          
-  console.log(canvas)
-  canvasScope.setup(canvas.outerHTML);
+  console.log(canvasScope)    
+  console.log(illustrationCanvas.current)                
+  canvasScope.setup(illustrationCanvas.current);  //potential problem here
 }
 
 /**
@@ -298,13 +297,12 @@ navigator.getUserMedia = navigator.getUserMedia ||
 FileUtils.setDragDropHandler((result) => {parseSVG(result)});
 
 async function parseSVG(target) {
-    console.log(target)
+  console.log(target)
   let svgScope = await SVGUtils.importSVG(target /* SVG string or file path */);
   let skeleton = new Skeleton(svgScope);
   illustration = new PoseIllustration(canvasScope);
   illustration.bindSkeleton(skeleton, svgScope);
 }
-canvas = useRef(canvas)
   
 bindPage();
 
@@ -321,18 +319,13 @@ return (
     <div className="canvas-container">
         <div id='main' style={{display:'none'}}>
             <video id="video" 
-            // playsinline style=" -moz-transform: scaleX(-1);
-            // -o-transform: scaleX(-1);
-            // -webkit-transform: scaleX(-1);
-            // transform: scaleX(-1);
-            // display: none;
-            // "
+            playsInline 
             >
             </video>
-            <canvas id="output" className="camera-canvas"></canvas>
+            <canvas id="output" ref={outputCanvas} className="camera-canvas"></canvas>
             <canvas id="keypoints" className="camera-canvas"></canvas>
         </div>
-        <canvas className="illustration-canvas" ref={canvas}></canvas>
+        <canvas style={{width:'100%', height:'100%'}} className="illustration-canvas" ref={illustrationCanvas}></canvas>
     </div>
     <div className="footer">
         <div className="footer-text">
