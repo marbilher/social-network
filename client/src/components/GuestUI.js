@@ -8,6 +8,7 @@ import ChatCurrentlyOnline from './ChatCurrentlyOnline';
 import { socket } from '../util/ClientSocket';
 import { makeID } from '../util/GenerateID';
 import { useEffect } from 'react';
+import LoggedInNavbar from './LoggedInNavbar';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
     },
     tall: {
-        height: '80vh',
+        height: '75vh',
     },
     short: {
         height: '8vh',
@@ -24,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         textAlign: 'center',
         //   color: theme.palette.text.secondary,
-        outlineColor: 'black',
-        outlineStyle: 'solid',
+        // outlineColor: 'black',
+        // outlineStyle: 'solid',
     },
 }));
 
@@ -67,6 +68,8 @@ function GuestUI() {
     }
 
     return (
+        <div>
+        <LoggedInNavbar styles={classes}/>
         <div className={classes.root}>
             <Grid container spacing={3}>
                 <Grid item xs={9}>
@@ -83,6 +86,7 @@ function GuestUI() {
                     />
                 </Grid>
             </Grid>
+        </div>
         </div>
     );
 }
