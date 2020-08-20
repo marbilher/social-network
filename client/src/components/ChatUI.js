@@ -1,12 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-// import TextField from '@material-ui/core/TextField';
 import ChatTextField from './ChatTextField';
 import ChatMessageDisplay from './ChatMessageDisplay';
 import ChatCurrentlyOnline from './ChatCurrentlyOnline';
 import { socket } from '../util/ClientSocket';
-import { makeID } from '../util/GenerateID';
+// import { makeID } from '../util/GenerateID';
 import { useEffect } from 'react';
 import LoggedInNavbar from './LoggedInNavbar';
 
@@ -49,9 +48,9 @@ function GuestUI() {
     }, [currentlyOnline])
 
     useEffect(() => {
-        const tempID = makeID(10);  //Replace with cookies
-        localStorage.setItem('tempID', tempID);
-        _setUserIdentification(tempID);
+        const tempID = localStorage.getItem('tempID')
+        // localStorage.setItem('tempID', tempID);
+        _setUserIdentification(localStorage.getItem('tempID'));
         socket.emit('clientRegisterUserOnline', tempID);
         socket.on('serverSendNewMessage', function (data) {
             setMessages((messages) => [...messages, data]);

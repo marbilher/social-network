@@ -6,6 +6,7 @@ import ChatTextField from './ChatTextField';
 import { useEffect } from 'react';
 import LoggedInNavbar from './LoggedInNavbar';
 import UserAboutMe from './UserAboutMe'
+import UserContext from "../util/UserContext";
 
 function UserProfile() {
 
@@ -32,9 +33,11 @@ function UserProfile() {
     const [inputFieldText, setInputFieldText] = React.useState('');
     const [userAboutMeText, setUserAboutMeText] = React.useState('');
     const [userIdentification, _setUserIdentification] = React.useState('');
+    // const { userIDContext } = React.useContext(UserContext)
 
     useEffect(() => {
         mockAPICall()
+        // _setUserIdentification(userIDContext) = React.useContext(userIDContext)
     }, [])
 
     function editProfileInfoSubmit() {
@@ -58,11 +61,16 @@ function UserProfile() {
         <div className={classes.root}>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
+                <UserContext.Consumer>
+                    {userContext => (
                     <UserAboutMe 
+                        userIDContext={userContext.userIDContext}
                         userAboutMeText={userAboutMeText} 
                         setUserAboutMeText={setUserAboutMeText}
                         editProfileInfoSubmit={editProfileInfoSubmit}
                         classes={classes}/>
+                    )}
+                    </UserContext.Consumer>
                 </Grid>
             </Grid>
         </div>

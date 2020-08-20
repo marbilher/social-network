@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
+import { Grid } from "@material-ui/core";
 
 
 function UserAboutMe(props) {
@@ -30,7 +31,7 @@ function UserAboutMe(props) {
             height: '8vh',
         },
         media: {
-            height: 140,
+            height: 222,
           },
           paper: {
             backgroundColor: theme.palette.background.paper,
@@ -64,23 +65,36 @@ function UserAboutMe(props) {
         <div>
         <Card className={classes.root}>
             <CardActionArea>
+            <Grid item style={{ flexGrow: 1 }}>
+            <Grid container spacing={0} justify="center" alignItems="stretch">
+            <Grid item xs={4} direction="column">
+
                 <CardMedia
-                className={classes.media}
-                image="/static/images/cards/contemplative-reptile.jpg"
-                title="Contemplative Reptile"
-                />
+                title="User photo"
+                >
+                <img  className={classes.media} src={require("../img/default_photo.png")}/>
+                </CardMedia>
+                </Grid>
+                <Grid item xs={8} direction="column">
                 <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
-                    User Name
+                    {/* {localStorage.getItem('tempID')} */}
+                    {props.userIDContext}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    {props.userAboutMeText}
+                    {props.userAboutMeText} 
+                    <Button size="small" color="primary" onClick={handleOpen}>
+                        Edit
+                    </Button>
                 </Typography>
                 </CardContent>
+                </Grid>
+                </Grid>
+                </Grid>
             </CardActionArea>
             <CardActions>
-                <Button size="small" color="primary" onClick={handleOpen}>
-                Edit
+                <Button size="small" color="primary">
+                Upload new profile picture
                 </Button>
             </CardActions>
         </Card>
