@@ -22,6 +22,7 @@ function App() {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/" render={(props) => <UserContext.Provider value={{userIDContext}}><LandingPage {...props}/></UserContext.Provider>} />
+                    <Route exact path="/home" render={(props) => <UserContext.Provider value={{userIDContext}}><LandingPage {...props}/></UserContext.Provider>} />
                     <Route exact path="/signup" render={<SignUpOrLogIn isSigningUp={true} />} />
                     <Route exact path="/login" render={<SignUpOrLogIn isSigningUp={false} />} />
                     <Route exact path="/chat" render={(props) => <UserContext.Provider value={{userIDContext}}><ChatUI {...props}/></UserContext.Provider>} />

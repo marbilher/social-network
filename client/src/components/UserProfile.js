@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 import LoggedInNavbar from './LoggedInNavbar';
 import UserAboutMe from './UserAboutMe'
 import UserContext from "../util/UserContext";
+import UserActionsCard from "./UserActionsCard"
+import UserWall from "./UserWall"
 
 function UserProfile() {
 
@@ -34,9 +36,37 @@ function UserProfile() {
     const [userAboutMeText, setUserAboutMeText] = React.useState('');
     const [userIdentification, _setUserIdentification] = React.useState('');
     // const { userIDContext } = React.useContext(UserContext)
+    const [isEditState, setIsEditState] = React.useState(false);
+    const [userWallContent, setUserWallContent] = React.useState([])
+
+    function generateFakeWallContent() {
+        
+        let fakeWallContent = {
+            author: 'User name here',
+            title: 'Hey whats up',
+            image: 'https://picsum.photos/200',
+            createDate: '11/12/20 04:12',
+            text: 'Placeholder text',
+            key: null
+        }
+        return fakeWallContent
+    }
+
+    const deleteUserWallContentBlock = (event, key) => {
+        // event.preventDefault();
+        console.log(event.currentTarget)
+        console.log(event.target)
+        console.log(key)
+        setUserWallContent(userWallContent.filter(item => item.key !== key));
+    }
 
     useEffect(() => {
         mockAPICall()
+        for(let i = 0; i < 5; i++) {
+            let faked = generateFakeWallContent()
+            faked.key = (function() { return Math.random()})()
+            setUserWallContent(oldContent => [...oldContent, faked])
+        }
         // _setUserIdentification(userIDContext) = React.useContext(userIDContext)
     }, [])
 
@@ -45,9 +75,16 @@ function UserProfile() {
         //     userIdentification: userIdentification,
         //     text: inputFieldText,
         // };
-        setUserAboutMeText('');
+        // setUserAboutMeText('');
     }
 
+    const toggleEditState = () => {
+        if(!isEditState) {
+            setIsEditState(true);
+        } else {
+            setIsEditState(false)
+        }
+      };
 
     function mockAPICall() {
         setTimeout(function(){ 
@@ -68,9 +105,20 @@ function UserProfile() {
                         userAboutMeText={userAboutMeText} 
                         setUserAboutMeText={setUserAboutMeText}
                         editProfileInfoSubmit={editProfileInfoSubmit}
-                        classes={classes}/>
+                        classes={classes}
+                        isEditState={isEditState}
+                        toggleEditState={toggleEditState}
+                        />
                     )}
                     </UserContext.Consumer>
+                </Grid>
+            </Grid>
+            <Grid container spacing={3}>
+                <Grid item xs={4}>
+                        <UserActionsCard></UserActionsCard>
+                </Grid>
+                <Grid item xs={8}>
+                        <UserWall userWallContent={userWallContent} deleteUserWallContentBlock={deleteUserWallContentBlock}></UserWall>
                 </Grid>
             </Grid>
         </div>

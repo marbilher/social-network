@@ -36,31 +36,35 @@ function UserAboutMe(props) {
           paper: {
             backgroundColor: theme.palette.background.paper,
             border: 'none',
-            // boxShadow: theme.shadows[5],
             padding: theme.spacing(2, 4, 3),
           },
         }));
 
-    const [open, setOpen] = React.useState(false);
+    // const [open, setOpen] = React.useState(false);
 
-    const handleOpen = () => {
-        setOpen(true);
-      };
+    // const handleOpen = () => {
+    //     if(!open) {
+    //         setOpen(true);
+    //     } else {
+    //         setOpen(false)
+    //     }
+    //   };
     
-    const handleClose = () => {
-        setOpen(false);
-    };
+    // const handleClose = () => {
+    //     setOpen(false);
+    // };
 
     const classes = useStyles();
 
-    const body = (
-        <div className={classes.paper}>
-          <h2 id="simple-modal-title">Text in a modal</h2>
-          <p id="simple-modal-description">
-          {props.userAboutMeText}
-          </p>
-        </div>
-      );
+    // const body = (
+    //     <div className={classes.paper}>
+    //       <h2 id="simple-modal-title">Text in a modal</h2>
+    //       <p id="simple-modal-description">
+    //       {props.userAboutMeText}
+    //       </p>
+    //     </div>
+    //   );
+
     return (
         <div>
         <Card className={classes.root}>
@@ -78,15 +82,41 @@ function UserAboutMe(props) {
                 <Grid item xs={8} direction="column">
                 <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
-                    {/* {localStorage.getItem('tempID')} */}
                     {props.userIDContext}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    {props.userAboutMeText} 
-                    <Button size="small" color="primary" onClick={handleOpen}>
-                        Edit
-                    </Button>
-                </Typography>
+                {!props.isEditState ? 
+                    <Typography variant="body2" color="textSecondary" component="p">                    
+                    {props.userAboutMeText}
+                        <Button size="small" color="primary" onClick={props.toggleEditState}>
+                            Edit
+                        </Button>
+                    </Typography>
+                    :
+                    <div>
+                    <TextField
+                    id="standard-multiline-static"
+                    inputRef={input => input && input.focus()}
+                    multiline
+                    rows={10}
+                    InputProps={{fontSize: '10px', disableUnderline:true }} 
+                    InputLabelProps={{fontSize: '10px'}} 
+                    // className={classes.paper}
+                    style={{ width: '100%', height: '30%' }}
+                    value={props.userAboutMeText}
+                    onChange={(e) => props.setUserAboutMeText(e.target.value)}
+                    onKeyPress={(ev) => {
+                        if (ev.key === 'Enter') {
+                            props.editProfileInfoSubmit();
+                            props.toggleEditState();
+                        }
+                    }}
+                    >
+                    </TextField>
+                    <Button size="small" color="primary" onClick={props.toggleEditState}>
+                            Save
+                    </Button>  
+                    </div>
+                }
                 </CardContent>
                 </Grid>
                 </Grid>
@@ -98,7 +128,7 @@ function UserAboutMe(props) {
                 </Button>
             </CardActions>
         </Card>
-        <Modal              //Problem with display here
+        {/* <Modal              //Better to allow user to directly edit textfield
             open={open}
             onClose={handleClose}
             className={classes.modal}
@@ -106,13 +136,12 @@ function UserAboutMe(props) {
             aria-describedby="simple-modal-description"
             >            
             <TextField
-             id="outlined-multiline-static"
-            label="About me"
+             id="standard-multiline-static"
+            inputRef={input => input && input.focus()}
             multiline
             rows={20}
-            variant="outlined"
             className={classes.paper}
-            style={{ width: '80%', height: '80%' }}
+            style={{ width: '40%', height: '60%' }}
             value={props.userAboutMeText}
             onChange={(e) => props.setUserAboutMeText(e.target.value)}
             onKeyPress={(ev) => {
@@ -120,10 +149,12 @@ function UserAboutMe(props) {
                     props.editProfileInfoSubmit();
                 }
             }}
-            // variant="outlined"
-            />
-
-        </Modal>
+            >
+            </TextField>
+             <Button size="large" color="primary" onClick={() => props.editProfileInfoSubmit()}>
+                Submit
+            </Button>
+        </Modal> */}
       </div>
     );
 }
