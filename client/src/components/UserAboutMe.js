@@ -71,7 +71,7 @@ function UserAboutMe(props) {
             <CardActionArea>
             <Grid item style={{ flexGrow: 1 }}>
             <Grid container spacing={0} justify="center" alignItems="stretch">
-            <Grid item xs={4} direction="column">
+            <Grid item xs={12} sm={4} direction="column">
 
                 <CardMedia
                 title="User photo"
@@ -79,18 +79,21 @@ function UserAboutMe(props) {
                 <img  className={classes.media} src={require("../img/default_photo.png")}/>
                 </CardMedia>
                 </Grid>
-                <Grid item xs={8} direction="column">
+                <Grid item xs={12} sm={8} direction="column">
                 <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                     {props.userIDContext}
                 </Typography>
                 {!props.isEditState ? 
+                    <div>
                     <Typography variant="body2" color="textSecondary" component="p">                    
                     {props.userAboutMeText}
-                        <Button size="small" color="primary" onClick={props.toggleEditState}>
+                    
+                    </Typography>
+                    <Button size="small" color="primary" onClick={props.toggleEditState}>
                             Edit
                         </Button>
-                    </Typography>
+                    </div>
                     :
                     <div>
                     <TextField
@@ -128,33 +131,6 @@ function UserAboutMe(props) {
                 </Button>
             </CardActions>
         </Card>
-        {/* <Modal              //Better to allow user to directly edit textfield
-            open={open}
-            onClose={handleClose}
-            className={classes.modal}
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
-            >            
-            <TextField
-             id="standard-multiline-static"
-            inputRef={input => input && input.focus()}
-            multiline
-            rows={20}
-            className={classes.paper}
-            style={{ width: '40%', height: '60%' }}
-            value={props.userAboutMeText}
-            onChange={(e) => props.setUserAboutMeText(e.target.value)}
-            onKeyPress={(ev) => {
-                if (ev.key === 'Enter') {
-                    props.editProfileInfoSubmit();
-                }
-            }}
-            >
-            </TextField>
-             <Button size="large" color="primary" onClick={() => props.editProfileInfoSubmit()}>
-                Submit
-            </Button>
-        </Modal> */}
       </div>
     );
 }

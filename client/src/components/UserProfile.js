@@ -47,22 +47,54 @@ function UserProfile() {
             image: 'https://picsum.photos/200',
             createDate: '11/12/20 04:12',
             text: 'Placeholder text',
+            isEdit: false,
             key: null
         }
         return fakeWallContent
     }
 
     const deleteUserWallContentBlock = (event, key) => {
-        // event.preventDefault();
-        console.log(event.currentTarget)
-        console.log(event.target)
-        console.log(key)
         setUserWallContent(userWallContent.filter(item => item.key !== key));
+    }
+
+    const editUserAboutMeText = (event, key) => {
+        setUserWallContent(userWallContent.map((content) => {
+            if (content.key === key) return {...content, text: event.target.value}
+            return content;
+          }));
+    }
+
+    const updateUserWallContentBlockText = (event, key) => {          //Refactor to prevent rerender
+        setUserWallContent(userWallContent.map((content) => {       //of everything in statehook array
+            if (content.key === key) return {...content, text: event.target.value}
+            return content;
+          }));
+    }
+
+    const editUserWallContentBlock = (key) => { //can make this an isEdit toggle
+        setUserWallContent(userWallContent.map((content) => {
+            if (content.key === key) return {...content, isEdit: !content.isEdit}
+            return content;
+          }));
+    }
+
+    const addNewUserWallContentBlock = (text, title) => {
+        let newWallContent = {
+            author: 'username here',
+            title: 'remove title',
+            image: 'https://picsum.photos/200',
+            createDate: '11/12/20 04:12',
+            text: '',
+            isEdit: true,
+            key: null
+        }
+        newWallContent.key = (function() { return Math.random()})()
+        setUserWallContent(oldContent => [...oldContent, newWallContent])
     }
 
     useEffect(() => {
         mockAPICall()
-        for(let i = 0; i < 5; i++) {
+        for(let i = 0; i < 2; i++) {
             let faked = generateFakeWallContent()
             faked.key = (function() { return Math.random()})()
             setUserWallContent(oldContent => [...oldContent, faked])
@@ -93,9 +125,8 @@ function UserProfile() {
     }
 
     return (
-        <div>
-        <LoggedInNavbar styles={classes}/>
-        <div className={classes.root}>
+        <React.Fragment>
+        <LoggedInNavbar styles={classes} className={classes.root}/>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                 <UserContext.Consumer>
@@ -114,15 +145,19 @@ function UserProfile() {
                 </Grid>
             </Grid>
             <Grid container spacing={3}>
-                <Grid item xs={4}>
+                <Grid item xs={12} sm={4}>
                         <UserActionsCard></UserActionsCard>
                 </Grid>
-                <Grid item xs={8}>
-                        <UserWall userWallContent={userWallContent} deleteUserWallContentBlock={deleteUserWallContentBlock}></UserWall>
+                <Grid item xs={12} sm={8}>
+                        <UserWall 
+                            userWallContent={userWallContent}
+                            updateUserWallContentBlockText={updateUserWallContentBlockText}
+                            editUserWallContentBlock={editUserWallContentBlock}
+                            addNewUserWallContentBlock={addNewUserWallContentBlock}
+                            deleteUserWallContentBlock={deleteUserWallContentBlock}/>
                 </Grid>
             </Grid>
-        </div>
-        </div>
+        </React.Fragment>
     );
 }
 
