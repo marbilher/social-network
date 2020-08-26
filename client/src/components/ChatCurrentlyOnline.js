@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import Paper from '@material-ui/core/Paper';
 
 function ChatCurrentlyOnline(props) {
@@ -13,13 +13,13 @@ function ChatCurrentlyOnline(props) {
     useEffect(scrollToBottom, [props.currentlyOnline]);
     const messagesEndRef = useRef(null);
 
-
     return (
-        <Paper 
-            className={userName} 
-            variant="outlined" 
+        <Paper
+            className={userName}
+            variant="outlined"
             className={props.classes.tall}
-            style={{ maxHeight: '100%', overflow: 'auto' }}>
+            style={{ maxHeight: '100%', overflow: 'auto' }}
+        >
             {props.currentlyOnline.map((user) => {
                 return <p key={user}>{user}</p>;
             })}

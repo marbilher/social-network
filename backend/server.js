@@ -10,24 +10,23 @@ app.use(bodyParser.urlencoded());
 const path = require('path');
 
 // if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
-    app.get('*', function (req, res) {
-        console.log(path.join(__dirname, '../client/build/index.html'))
-        res.sendFile(path.join(__dirname + '/..' +'/client/build/index.html'));
-    });
+app.use(express.static('client/build'));
+app.get('*', function (req, res) {
+    console.log(path.join(__dirname, '../client/build/index.html'));
+    res.sendFile(path.join(__dirname + '/..' + '/client/build/index.html'));
+});
 
 //Create-react-app uses yarn buildpack to resolve %PUBLIC_URL% in index.html
 //Errors when serving index.html through node w/o having ran build
 //https://stackoverflow.com/questions/50824024/urierror-failed-to-decode-param-public-url-favicon-ico
 
-// } else {     
+// } else {
 //     console.log('Development');
 //     app.use(express.static(path.join(__dirname, 'client/public/')));
 //     app.get('*', (req, res) => {
 //         res.sendFile(path.join(__dirname + '/..' +'/client/public/index.html'));
 //     });
 // }
-
 
 const router = require('./app/routes');
 app.use(router);

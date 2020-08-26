@@ -22,7 +22,7 @@ router.get(
 );
 
 // Handle Static File 404
-router.use(function(err, req, res, next) {
+router.use(function (err, req, res, next) {
     if (err) console.error;
     res.sendStatus(404);
 });

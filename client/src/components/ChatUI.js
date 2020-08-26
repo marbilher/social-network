@@ -40,15 +40,15 @@ function GuestUI() {
     useEffect(() => {
         socket.on('serverEmitCurrentlyOnline', function (data) {
             let newState = currentlyOnline;
-            if(!newState.includes(data)) {
-                newState.push(data)
+            if (!newState.includes(data)) {
+                newState.push(data);
             }
-            setCurrentlyOnline(newState)
+            setCurrentlyOnline(newState);
         });
-    }, [currentlyOnline])
+    }, [currentlyOnline]);
 
     useEffect(() => {
-        const tempID = localStorage.getItem('tempID')
+        const tempID = localStorage.getItem('tempID');
         // localStorage.setItem('tempID', tempID);
         _setUserIdentification(localStorage.getItem('tempID'));
         socket.emit('clientRegisterUserOnline', tempID);
@@ -68,24 +68,24 @@ function GuestUI() {
 
     return (
         <div>
-        <LoggedInNavbar styles={classes}/>
-        <div className={classes.root}>
-            <Grid container spacing={3}>
-                <Grid item xs={9}>
-                    <ChatMessageDisplay classes={classes} messages={messages} />
+            <LoggedInNavbar styles={classes} />
+            <div className={classes.root}>
+                <Grid container spacing={3}>
+                    <Grid item xs={9}>
+                        <ChatMessageDisplay classes={classes} messages={messages} />
+                    </Grid>
+                    <Grid item xs={3} sm={3}>
+                        <ChatCurrentlyOnline classes={classes} currentlyOnline={currentlyOnline} />
+                    </Grid>
+                    <Grid item xs={12} sm={12}>
+                        <ChatTextField
+                            setInputFieldText={setInputFieldText}
+                            chatSubmit={chatSubmit}
+                            inputFieldText={inputFieldText}
+                        />
+                    </Grid>
                 </Grid>
-                <Grid item xs={3} sm={3}>
-                    <ChatCurrentlyOnline classes={classes} currentlyOnline={currentlyOnline} />
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                    <ChatTextField
-                        setInputFieldText={setInputFieldText}
-                        chatSubmit={chatSubmit}
-                        inputFieldText={inputFieldText}
-                    />
-                </Grid>
-            </Grid>
-        </div>
+            </div>
         </div>
     );
 }

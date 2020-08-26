@@ -29,19 +29,17 @@ export default function SignUpOrLogIn(props) {
             <FormControl className={classes.margin}>
                 <TextField
                     className={classes.margin}
-                    label={isSigningUp ? "Registration Email" : "Email"}
+                    label={isSigningUp ? 'Registration Email' : 'Email'}
                     id="input-with-icon-textfield"
                     type="text"
                     InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                        <IconButton>
-                          <MailOutline />
-                        </IconButton>
-
-                        </InputAdornment>)
-
-
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <IconButton>
+                                    <MailOutline />
+                                </IconButton>
+                            </InputAdornment>
+                        ),
                     }}
                 />
                 <TextField
@@ -62,32 +60,33 @@ export default function SignUpOrLogIn(props) {
                         ),
                     }}
                 />
-              {isSigningUp ? 
-                <TextField
-                    label="Confirm Password"
-                    className={classes.margin}
-                    id="input-with-icon-textfield"
-                    type={showPassword ? 'password' : 'text'}
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                >
-                                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                                </IconButton>
-                            </InputAdornment>
-                        ),
-                    }}
-                />
-                : '' }
+                {isSigningUp ? (
+                    <TextField
+                        label="Confirm Password"
+                        className={classes.margin}
+                        id="input-with-icon-textfield"
+                        type={showPassword ? 'password' : 'text'}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    >
+                                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
+                ) : (
+                    ''
+                )}
 
                 <Button variant="outlined" color="primary" className={classes.button} startIcon={<SendIcon />}>
-      { isSigningUp ? "Sign Up" : "Log In" } 
+                    {isSigningUp ? 'Sign Up' : 'Log In'}
                 </Button>
             </FormControl>
         </div>
     );
 }
-

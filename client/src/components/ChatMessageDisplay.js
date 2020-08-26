@@ -1,9 +1,8 @@
-import React, { useEffect, useRef }  from 'react';
+import React, { useEffect, useRef } from 'react';
 import Paper from '@material-ui/core/Paper';
 import ChatBoxMessage from './ChatBoxMessage';
 
 function ChatMessageDisplay(props) {
-
     const scrollToBottom = () => {
         messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     };
@@ -11,11 +10,7 @@ function ChatMessageDisplay(props) {
     const messagesEndRef = useRef(null);
 
     return (
-        <Paper
-            style={{ maxHeight: '100%', overflow: 'auto' }}
-            className={props.classes.tall}
-            variant="outlined"
-        >
+        <Paper style={{ maxHeight: '100%', overflow: 'auto' }} className={props.classes.tall} variant="outlined">
             {props.messages.map((message) => {
                 return <ChatBoxMessage message={message} key={message.uniqueID} />;
             })}

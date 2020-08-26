@@ -5,12 +5,14 @@ import Grid from '@material-ui/core/Grid';
 import ChatTextField from './ChatTextField';
 import { useEffect } from 'react';
 import LoggedInNavbar from './LoggedInNavbar';
-import UserAboutMe from './UserAboutMe';
 import UserContext from '../util/UserContext';
 import UserActionsCard from './UserActionsCard';
 import UserWall from './UserWall';
+import SmallUserCard from './SmallUserCard';
+import AnnouncementsBar from './AnnouncementsBar';
+import ChatCurrentlyOnline from './ChatCurrentlyOnline'
 
-function UserProfile() {
+function SiteHub() {
     let useStyles = makeStyles((theme) => ({
         root: {
             flexGrow: 1,
@@ -37,7 +39,17 @@ function UserProfile() {
     // const { userIDContext } = React.useContext(UserContext)
     const [isEditState, setIsEditState] = React.useState(false);
     const [userWallContent, setUserWallContent] = React.useState([]);
+    const [adminAnnouncements, setAdminAnnouncements] = React.useState([]);
 
+
+    function generateFakeAdminAnnouncements() {
+        let announcement = {
+            headlineText: "11/24/20 - Dr.Dave in chat @ 7PM PST",
+            detailText: "Dr.Dave has been a pediatric oncologist for 12 years. He is going to answer questions about long term medical care.",
+            key: null
+        }
+        return announcement
+    }
     function generateFakeWallContent() {
         let fakeWallContent = {
             author: 'User name here',
@@ -102,24 +114,20 @@ function UserProfile() {
     };
 
     useEffect(() => {
-        mockAPICall();
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 5; i++) {
             let faked = generateFakeWallContent();
+            let fakeAnnouncement = generateFakeAdminAnnouncements();
             faked.key = (function () {
                 return Math.random();
             })();
+            fakeAnnouncement.key = (function () {
+                return Math.random();
+            })();
             setUserWallContent((oldContent) => [...oldContent, faked]);
+            setAdminAnnouncements((oldContent) => [...oldContent, fakeAnnouncement])
         }
         // _setUserIdentification(userIDContext) = React.useContext(userIDContext)
     }, []);
-
-    function editProfileInfoSubmit() {
-        // let newEditProfileInfo = {   //Save this to DB
-        //     userIdentification: userIdentification,
-        //     text: inputFieldText,
-        // };
-        // setUserAboutMeText('');
-    }
 
     const toggleEditState = () => {
         if (!isEditState) {
@@ -129,39 +137,30 @@ function UserProfile() {
         }
     };
 
-    function mockAPICall() {
-        setTimeout(function () {
-            setUserAboutMeText(
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            );
-        }, 500);
-    }
-
     return (
         <React.Fragment>
             <LoggedInNavbar styles={classes} className={classes.root} />
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
+            <Grid container spacing={1}>
+                <Grid item xs={12} sm={3}>
                     <UserContext.Consumer>
                         {(userContext) => (
-                            <UserAboutMe
+                            <SmallUserCard
                                 userIDContext={userContext.userIDContext}
                                 userAboutMeText={userAboutMeText}
-                                setUserAboutMeText={setUserAboutMeText}
-                                editProfileInfoSubmit={editProfileInfoSubmit}
                                 classes={classes}
-                                isEditState={isEditState}
-                                toggleEditState={toggleEditState}
                             />
                         )}
                     </UserContext.Consumer>
                 </Grid>
+                <Grid item xs={12} sm={6}>
+                    <AnnouncementsBar adminAnnouncements={adminAnnouncements} />
+                </Grid>
             </Grid>
-            <Grid container spacing={3}>
-                <Grid item xs={12} sm={4}>
+            <Grid container spacing={1}>
+                <Grid item xs={12} sm={3}>
                     <UserActionsCard></UserActionsCard>
                 </Grid>
-                <Grid item xs={12} sm={8}>
+                <Grid item xs={12} sm={6}>
                     <UserWall
                         userWallContent={userWallContent}
                         updateUserWallContentBlockText={updateUserWallContentBlockText}
@@ -175,4 +174,4 @@ function UserProfile() {
     );
 }
 
-export default UserProfile;
+export default SiteHub;

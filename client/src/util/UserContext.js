@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 const UserContext = React.createContext({
-  userIDContext: ""
+    userIDContext: '',
 });
 
 export default UserContext;

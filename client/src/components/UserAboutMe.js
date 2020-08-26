@@ -1,4 +1,4 @@
-import React, { useEffect, useRef }  from 'react';
+import React, { useEffect, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -9,11 +9,9 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
-import { Grid } from "@material-ui/core";
-
+import { Grid } from '@material-ui/core';
 
 function UserAboutMe(props) {
-
     let useStyles = makeStyles((theme) => ({
         root: {
             flexGrow: 1,
@@ -23,7 +21,7 @@ function UserAboutMe(props) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-          },
+        },
         tall: {
             height: '75vh',
         },
@@ -32,106 +30,78 @@ function UserAboutMe(props) {
         },
         media: {
             height: 222,
-          },
-          paper: {
+        },
+        paper: {
             backgroundColor: theme.palette.background.paper,
             border: 'none',
             padding: theme.spacing(2, 4, 3),
-          },
-        }));
-
-    // const [open, setOpen] = React.useState(false);
-
-    // const handleOpen = () => {
-    //     if(!open) {
-    //         setOpen(true);
-    //     } else {
-    //         setOpen(false)
-    //     }
-    //   };
-    
-    // const handleClose = () => {
-    //     setOpen(false);
-    // };
+        },
+    }));
 
     const classes = useStyles();
 
-    // const body = (
-    //     <div className={classes.paper}>
-    //       <h2 id="simple-modal-title">Text in a modal</h2>
-    //       <p id="simple-modal-description">
-    //       {props.userAboutMeText}
-    //       </p>
-    //     </div>
-    //   );
-
     return (
         <div>
-        <Card className={classes.root}>
-            <CardActionArea>
-            <Grid item style={{ flexGrow: 1 }}>
-            <Grid container spacing={0} justify="center" alignItems="stretch">
-            <Grid item xs={12} sm={4} direction="column">
-
-                <CardMedia
-                title="User photo"
-                >
-                <img  className={classes.media} src={require("../img/default_photo.png")}/>
-                </CardMedia>
-                </Grid>
-                <Grid item xs={12} sm={8} direction="column">
-                <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                    {props.userIDContext}
-                </Typography>
-                {!props.isEditState ? 
-                    <div>
-                    <Typography variant="body2" color="textSecondary" component="p">                    
-                    {props.userAboutMeText}
-                    
-                    </Typography>
-                    <Button size="small" color="primary" onClick={props.toggleEditState}>
-                            Edit
-                        </Button>
-                    </div>
-                    :
-                    <div>
-                    <TextField
-                    id="standard-multiline-static"
-                    inputRef={input => input && input.focus()}
-                    multiline
-                    rows={10}
-                    InputProps={{fontSize: '10px', disableUnderline:true }} 
-                    InputLabelProps={{fontSize: '10px'}} 
-                    // className={classes.paper}
-                    style={{ width: '100%', height: '30%' }}
-                    value={props.userAboutMeText}
-                    onChange={(e) => props.setUserAboutMeText(e.target.value)}
-                    onKeyPress={(ev) => {
-                        if (ev.key === 'Enter') {
-                            props.editProfileInfoSubmit();
-                            props.toggleEditState();
-                        }
-                    }}
-                    >
-                    </TextField>
-                    <Button size="small" color="primary" onClick={props.toggleEditState}>
-                            Save
-                    </Button>  
-                    </div>
-                }
-                </CardContent>
-                </Grid>
-                </Grid>
-                </Grid>
-            </CardActionArea>
-            <CardActions>
-                <Button size="small" color="primary">
-                Upload new profile picture
-                </Button>
-            </CardActions>
-        </Card>
-      </div>
+            <Card className={classes.root}>
+                <CardActionArea>
+                    <Grid item style={{ flexGrow: 1 }}>
+                        <Grid container spacing={0} justify="center" alignItems="stretch">
+                            <Grid item xs={12} sm={4} direction="column">
+                                <CardMedia title="User photo">
+                                    <img className={classes.media} src={require('../img/default_photo.png')} />
+                                </CardMedia>
+                            </Grid>
+                            <Grid item xs={12} sm={8} direction="column">
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="h2">
+                                        {props.userIDContext}
+                                    </Typography>
+                                    {!props.isEditState ? (
+                                        <div>
+                                            <Typography variant="body2" color="textSecondary" component="p">
+                                                {props.userAboutMeText}
+                                            </Typography>
+                                            <Button size="small" color="primary" onClick={props.toggleEditState}>
+                                                Edit
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <TextField
+                                                id="standard-multiline-static"
+                                                inputRef={(input) => input && input.focus()}
+                                                multiline
+                                                rows={10}
+                                                InputProps={{ fontSize: '10px', disableUnderline: true }}
+                                                InputLabelProps={{ fontSize: '10px' }}
+                                                // className={classes.paper}
+                                                style={{ width: '100%', height: '30%' }}
+                                                value={props.userAboutMeText}
+                                                onChange={(e) => props.setUserAboutMeText(e.target.value)}
+                                                onKeyPress={(ev) => {
+                                                    if (ev.key === 'Enter') {
+                                                        props.editProfileInfoSubmit();
+                                                        props.toggleEditState();
+                                                    }
+                                                }}
+                                            ></TextField>
+                                            <Button size="small" color="primary" onClick={props.toggleEditState}>
+                                                Save
+                                            </Button>
+                                        </div>
+                                    )}
+                                </CardContent>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </CardActionArea>
+                <CardActions>
+                    <Button size="small" color="primary">
+                        Upload new profile picture
+                    </Button>
+                </CardActions>
+            </Card>
+        </div>
     );
 }
 

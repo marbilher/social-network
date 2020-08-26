@@ -11,70 +11,79 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 export default function UserWallContentBlock(props) {
-
-  let useStyles = makeStyles((theme) => ({
+    let useStyles = makeStyles((theme) => ({
         root: {
             flexGrow: 1,
             padding: theme.spacing(2),
-        }
-      }));
+        },
+    }));
 
-      const classes = useStyles();
+    const classes = useStyles();
 
-      return (
-          <ListItem alignItems="flex-start">
+    return (
+        <ListItem alignItems="flex-start">
             <ListItemAvatar>
-              <Avatar alt="Remy Sharp" src={props.content.image} />
+                <Avatar alt="Remy Sharp" src={props.content.image} />
             </ListItemAvatar>
-            
-            <ListItemText
-              primary= {
-                <React.Fragment>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    color="textPrimary"
-                  >
-                    {props.content.author}<br/><br/>
-                  </Typography>
-                  {!props.content.isEdit ? 
-                  props.content.text :
-                    <TextField
-                    id="standard-multiline-static"
-                    inputRef={input => input && input.focus()}
-                    multiline
-                    rows={10}
-                    InputProps={{fontSize: '10px', disableUnderline:true }} 
-                    InputLabelProps={{fontSize: '10px'}} 
-                    // className={classes.paper}
-                    style={{ width: '100%', height: '30%' }}
-                    value={props.content.text}
-                    onChange={(e) => props.updateUserWallContentBlockText(e, props.content.key)}
-                    // onKeyPress={(ev) => {
-                    //     if (ev.key === 'Enter') {
-                    //         props.editProfileInfoSubmit();
-                    //         props.toggleEditState();
-                    //     }
-                    // }}
-                    >
-                    </TextField>
-                  }
-                  
-                </React.Fragment>
-              }
-            />
-                {!props.content.isEdit? <Button size="small" color="primary" onClick={(event) => props.editUserWallContentBlock(props.content.key)}>
-                Edit
-                </Button>
-                :
-                <Button size="small" color="primary" onClick={(event) => props.editUserWallContentBlock(props.content.key)}>
-                Save
-                </Button>}
 
-                <Button size="small" color="warning" onClick={(event) => props.deleteUserWallContentBlock(event, props.content.key)}>
-                Delete
+            <ListItemText
+                primary={
+                    <React.Fragment>
+                        <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
+                            {props.content.author}
+                            <br />
+                            <br />
+                        </Typography>
+                        {!props.content.isEdit ? (
+                            props.content.text
+                        ) : (
+                            <TextField
+                                id="standard-multiline-static"
+                                inputRef={(input) => input && input.focus()}
+                                multiline
+                                rows={10}
+                                InputProps={{ fontSize: '10px', disableUnderline: true }}
+                                InputLabelProps={{ fontSize: '10px' }}
+                                // className={classes.paper}
+                                style={{ width: '100%', height: '30%' }}
+                                value={props.content.text}
+                                onChange={(e) => props.updateUserWallContentBlockText(e, props.content.key)}
+                                // onKeyPress={(ev) => {
+                                //     if (ev.key === 'Enter') {
+                                //         props.editProfileInfoSubmit();
+                                //         props.toggleEditState();
+                                //     }
+                                // }}
+                            ></TextField>
+                        )}
+                    </React.Fragment>
+                }
+            />
+            {!props.content.isEdit ? (
+                <Button
+                    size="small"
+                    color="primary"
+                    onClick={(event) => props.editUserWallContentBlock(props.content.key)}
+                >
+                    Edit
                 </Button>
-          </ListItem>
-        )
-    }
+            ) : (
+                <Button
+                    size="small"
+                    color="primary"
+                    onClick={(event) => props.editUserWallContentBlock(props.content.key)}
+                >
+                    Save
+                </Button>
+            )}
+
+            <Button
+                size="small"
+                color="warning"
+                onClick={(event) => props.deleteUserWallContentBlock(event, props.content.key)}
+            >
+                Delete
+            </Button>
+        </ListItem>
+    );
+}
