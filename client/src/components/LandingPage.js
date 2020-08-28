@@ -19,6 +19,16 @@ const useStyles = makeStyles((theme) => ({
 function LandingPage() {
     const classes = useStyles();
 
+    // useEffect(() => {
+    //     const tempID = makeID(10);  //Replace with cookies
+    //     localStorage.setItem('tempID', tempID);
+    //     _setUserIdentification(tempID);
+    //     socket.emit('clientRegisterUserOnline', tempID);
+    //     socket.on('serverSendNewMessage', function (data) {
+    //         setMessages((messages) => [...messages, data]);
+    //     });
+    // }, []);
+
     return (
         <div className="App-header">
             <h1 className={classes.header}>
@@ -37,7 +47,7 @@ function LandingPage() {
                     variant="outlined"
                     color="default"
                     component={Link}
-                    to="/guestui"
+                    to="/profile"
                 >
                     Guest
                 </Button>
