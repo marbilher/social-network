@@ -15,7 +15,7 @@ function AnnouncementBar(props) {
     let useStyles = makeStyles((theme) => ({
         root: {
             flexGrow: 1,
-            padding: theme.spacing(1),
+            padding: theme.spacing(2),
         },
         tall: {
             height: '75vh',
@@ -25,10 +25,13 @@ function AnnouncementBar(props) {
         },
         media: {
             height: 222,
+            display: 'block',
+            marginLeft: 'auto',
+            marginRight: 'auto',
         },
         announcements: {
             backgroundColor: theme.palette.background.paper,
-            padding: theme.spacing(1, 2, 1),
+            // padding: theme.spacing(1, 2, 1),
         },
     }));
 
@@ -43,7 +46,7 @@ function AnnouncementBar(props) {
                         <Grid container spacing={0} justify="center">
                             <Grid item xs={12} sm={6} direction="column">
                                 <CardMedia title="Site logo">
-                                    <img className={classes.media} style={{width:'75%', height: '75%'}} fill={'red'} src={require('../svg/gt3logo.svg')} />
+                                    <img className={classes.media} style={{width:'75%', height: '75%'}} src={require('../svg/gt3logo.svg')} />
                                 </CardMedia>
                             </Grid>
 

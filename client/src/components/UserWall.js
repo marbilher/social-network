@@ -8,8 +8,8 @@ import Button from '@material-ui/core/Button';
 export default function UserWall(props) {
     const useStyles = makeStyles((theme) => ({
         root: {
-            width: '100%',
-            //   maxWidth: '36ch',
+            width: 'auto',
+            // maxWidth: '85ch',
             padding: theme.spacing(2),
             backgroundColor: theme.palette.background.paper,
         },

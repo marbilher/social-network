@@ -30,6 +30,7 @@ function LoggedInNavbar(props) {
                     </Button>
                 </React.Fragment>
             ))}
+            <br/>
         </div>
     );
 }

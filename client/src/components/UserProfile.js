@@ -139,7 +139,8 @@ function UserProfile() {
 
     return (
         <React.Fragment>
-            <LoggedInNavbar styles={classes} className={classes.root} />
+            <LoggedInNavbar styles={classes}/>
+            <div className={classes.root}>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <UserContext.Consumer>
@@ -171,6 +172,7 @@ function UserProfile() {
                     />
                 </Grid>
             </Grid>
+            </div>
         </React.Fragment>
     );
 }

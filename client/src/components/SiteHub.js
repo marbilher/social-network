@@ -1,6 +1,7 @@
 import React, { useStyles } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 // import TextField from '@material-ui/core/TextField';
 import ChatTextField from './ChatTextField';
 import { useEffect } from 'react';
@@ -10,7 +11,7 @@ import UserActionsCard from './UserActionsCard';
 import UserWall from './UserWall';
 import SmallUserCard from './SmallUserCard';
 import AnnouncementsBar from './AnnouncementsBar';
-import ChatCurrentlyOnline from './ChatCurrentlyOnline'
+import FriendList from './FriendList'
 
 function SiteHub() {
     let useStyles = makeStyles((theme) => ({
@@ -36,11 +37,10 @@ function SiteHub() {
     const [inputFieldText, setInputFieldText] = React.useState('');
     const [userAboutMeText, setUserAboutMeText] = React.useState('');
     const [userIdentification, _setUserIdentification] = React.useState('');
-    // const { userIDContext } = React.useContext(UserContext)
+    const { currentlyOnline } = React.useContext(UserContext)
     const [isEditState, setIsEditState] = React.useState(false);
     const [userWallContent, setUserWallContent] = React.useState([]);
     const [adminAnnouncements, setAdminAnnouncements] = React.useState([]);
-
 
     function generateFakeAdminAnnouncements() {
         let announcement = {
@@ -139,9 +139,56 @@ function SiteHub() {
 
     return (
         <React.Fragment>
-            <LoggedInNavbar styles={classes} className={classes.root} />
+            <LoggedInNavbar styles={classes}/>
+            <div className={classes.root}>
+            {/* https://stackoverflow.com/questions/45519275/grid-in-material-ui-causes-horizontal-scroll-react */}
+            {/* <Box style={{overflow: 'auto'}}> */}
             <Grid container spacing={1}>
-                <Grid item xs={12} sm={3}>
+                <Grid item sm={3}>
+                    
+                    <UserContext.Consumer>
+                        {(userContext) => (
+                            <Grid item>
+                            <SmallUserCard
+                                userIDContext={userContext.userIDContext}
+                                userAboutMeText={userAboutMeText}
+                                classes={classes}
+                            />
+                            </Grid>
+                        )}
+                    </UserContext.Consumer>  
+                    <br/>
+
+                    <Grid item>
+                    <UserActionsCard></UserActionsCard>
+                    </Grid>
+                </Grid>
+            <Grid item sm={6}>
+                <Grid item>
+                    <AnnouncementsBar adminAnnouncements={adminAnnouncements} />
+                </Grid>
+                <br/>
+
+                <Grid item>
+                    <UserWall
+                        userWallContent={userWallContent}
+                        
+                        updateUserWallContentBlockText={updateUserWallContentBlockText}
+                        editUserWallContentBlock={editUserWallContentBlock}
+                        addNewUserWallContentBlock={addNewUserWallContentBlock}
+                        deleteUserWallContentBlock={deleteUserWallContentBlock}
+                    />
+                </Grid>
+            </Grid>
+            
+            <Grid item sm={3}>
+                <Grid item>
+                    <FriendList classes={classes} currentlyOnline={currentlyOnline} />
+                </Grid>
+            </Grid>
+            </Grid>
+            {/* <Grid container direction="column" spacing={1}>
+                <Grid xs={12} sm={3} item>
                     <UserContext.Consumer>
                         {(userContext) => (
                             <SmallUserCard
@@ -152,15 +199,19 @@ function SiteHub() {
                         )}
                     </UserContext.Consumer>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                    <AnnouncementsBar adminAnnouncements={adminAnnouncements} />
-                </Grid>
-            </Grid>
-            <Grid container spacing={1}>
-                <Grid item xs={12} sm={3}>
+                <Grid xs={12} sm={3} item>
                     <UserActionsCard></UserActionsCard>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+            <Grid/>
+            <Grid container direction="column" spacing={1}>
+
+                {/* <Grid item xs={12} sm={3}>
+                    <ChatCurrentlyOnline classes={classes} currentlyOnline={currentlyOnline} />
+                </Grid> */}
+                {/* <Grid item >
+                    <AnnouncementsBar adminAnnouncements={adminAnnouncements} />
+                </Grid>
+                <Grid item>
                     <UserWall
                         userWallContent={userWallContent}
                         updateUserWallContentBlockText={updateUserWallContentBlockText}
@@ -170,6 +221,9 @@ function SiteHub() {
                     />
                 </Grid>
             </Grid>
+            </Grid> */}
+            {/* </Box> */}
+            </div>
         </React.Fragment>
     );
 }

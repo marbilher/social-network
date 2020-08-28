@@ -9,10 +9,20 @@ import UserProfile from './components/UserProfile';
 import UserContext from './util/UserContext';
 import makeID from './util/GenerateID';
 import SiteHub from './components/SiteHub';
-import SmallUserCard from './components/SmallUserCard';
 
 function App() {
     const userIDContext = makeID(10); //Replace with cookies
+    const currentlyOnline = [
+        {name:'Brie',
+         image: 'https://picsum.photos/200' 
+        },
+        {name:'Cheddar',
+         image: 'https://picsum.photos/200' 
+        },
+        {name:'Parmesan',
+         image: 'https://picsum.photos/200' 
+        },
+         ]
 
     useEffect(() => {
         localStorage.setItem('tempID', userIDContext);
@@ -36,7 +46,7 @@ function App() {
                         exact
                         path="/home"
                         render={(props) => (
-                            <UserContext.Provider value={{ userIDContext }}>
+                            <UserContext.Provider value={{ userIDContext, currentlyOnline }}>
                                 <SiteHub {...props} />
                             </UserContext.Provider>
                         )}
