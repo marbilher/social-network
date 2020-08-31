@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -21,6 +22,7 @@ export default function UserWallContentBlock(props) {
     const classes = useStyles();
 
     return (
+        <Box style={{overflow: 'auto'}}>
         <ListItem alignItems="flex-start">
             <ListItemAvatar>
                 <Avatar alt="Remy Sharp" src={props.content.image} />
@@ -28,35 +30,9 @@ export default function UserWallContentBlock(props) {
 
             <ListItemText
                 primary={
-                    <React.Fragment>
                         <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
                             {props.content.author}
-                            <br />
-                            <br />
                         </Typography>
-                        {!props.content.isEdit ? (
-                            props.content.text
-                        ) : (
-                            <TextField
-                                id="standard-multiline-static"
-                                inputRef={(input) => input && input.focus()}
-                                multiline
-                                rows={10}
-                                InputProps={{ fontSize: '10px', disableUnderline: true }}
-                                InputLabelProps={{ fontSize: '10px' }}
-                                // className={classes.paper}
-                                style={{ width: '100%', height: '30%' }}
-                                value={props.content.text}
-                                onChange={(e) => props.updateUserWallContentBlockText(e, props.content.key)}
-                                // onKeyPress={(ev) => {
-                                //     if (ev.key === 'Enter') {
-                                //         props.editProfileInfoSubmit();
-                                //         props.toggleEditState();
-                                //     }
-                                // }}
-                            ></TextField>
-                        )}
-                    </React.Fragment>
                 }
             />
             {!props.content.isEdit ? (
@@ -85,5 +61,32 @@ export default function UserWallContentBlock(props) {
                 Delete
             </Button>
         </ListItem>
+        {!props.content.isEdit ? (
+            <Typography>
+                {props.content.text}
+                </Typography>
+            ) : (
+                <TextField
+                    id="standard-multiline-static"
+                    inputRef={(input) => input && input.focus()}
+                    multiline
+                    rows={10}
+                    InputProps={{ fontSize: '10px', disableUnderline: true }}
+                    InputLabelProps={{ fontSize: '10px' }}
+                    // className={classes.paper}
+                    style={{ width: '100%', height: '30%' }}
+                    value={props.content.text}
+                    onChange={(e) => props.updateUserWallContentBlockText(e, props.content.key)}
+                    // onKeyPress={(ev) => {
+                    //     if (ev.key === 'Enter') {
+                    //         props.editProfileInfoSubmit();
+                    //         props.toggleEditState();
+                    //     }
+                    // }}
+                ></TextField>
+            )}
+    </Box>
+
+        
     );
 }

@@ -142,7 +142,7 @@ function SiteHub() {
             <LoggedInNavbar styles={classes}/>
             <div className={classes.root}>
             {/* https://stackoverflow.com/questions/45519275/grid-in-material-ui-causes-horizontal-scroll-react */}
-            {/* <Box style={{overflow: 'auto'}}> */}
+            <Box style={{overflow: 'auto'}}>
             <Grid container spacing={1}>
                 <Grid item sm={3}>
                     
@@ -187,42 +187,7 @@ function SiteHub() {
                 </Grid>
             </Grid>
             </Grid>
-            {/* <Grid container direction="column" spacing={1}>
-                <Grid xs={12} sm={3} item>
-                    <UserContext.Consumer>
-                        {(userContext) => (
-                            <SmallUserCard
-                                userIDContext={userContext.userIDContext}
-                                userAboutMeText={userAboutMeText}
-                                classes={classes}
-                            />
-                        )}
-                    </UserContext.Consumer>
-                </Grid>
-                <Grid xs={12} sm={3} item>
-                    <UserActionsCard></UserActionsCard>
-                </Grid>
-            <Grid/>
-            <Grid container direction="column" spacing={1}>
-
-                {/* <Grid item xs={12} sm={3}>
-                    <ChatCurrentlyOnline classes={classes} currentlyOnline={currentlyOnline} />
-                </Grid> */}
-                {/* <Grid item >
-                    <AnnouncementsBar adminAnnouncements={adminAnnouncements} />
-                </Grid>
-                <Grid item>
-                    <UserWall
-                        userWallContent={userWallContent}
-                        updateUserWallContentBlockText={updateUserWallContentBlockText}
-                        editUserWallContentBlock={editUserWallContentBlock}
-                        addNewUserWallContentBlock={addNewUserWallContentBlock}
-                        deleteUserWallContentBlock={deleteUserWallContentBlock}
-                    />
-                </Grid>
-            </Grid>
-            </Grid> */}
-            {/* </Box> */}
+            </Box>
             </div>
         </React.Fragment>
     );
