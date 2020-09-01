@@ -2,7 +2,28 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const { v4: uuidv4 } = require('uuid');
+const mysql = require('mysql');
 require('dotenv').config();
+
+let sqlConnection = mysql.createConnection({
+    host     : process.env.RDS_HOSTNAME,
+    user     : process.env.RDS_USERNAME,
+    password : process.env.RDS_PASSWORD,
+    port     : process.env.RDS_PORT,
+    database : "social_network",
+    multipleStatements: true
+  });
+
+  sqlConnection.connect(function(err) {
+    if (err) {
+      console.error('Database connection failed: ' + err.stack);
+    } else {
+      console.log('SQL connected')
+    }
+  });
+
+  module.exports = sqlConnection;
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
