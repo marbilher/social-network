@@ -4,6 +4,8 @@ const app = express();
 const { v4: uuidv4 } = require('uuid');
 const mysql = require('mysql');
 require('dotenv').config();
+const cors = require('cors');
+
 
 let sqlConnection = mysql.createConnection({
     host     : process.env.RDS_HOSTNAME,
@@ -24,6 +26,13 @@ let sqlConnection = mysql.createConnection({
 
   module.exports = sqlConnection;
 
+  var corsOptions = {
+    credentials: true,  //read up on why this solved your issue
+    origin: ['http://localhost:3000'],
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
+  
+  app.use(cors(corsOptions)); 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());

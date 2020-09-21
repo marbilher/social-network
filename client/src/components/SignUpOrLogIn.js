@@ -9,6 +9,7 @@ import SendIcon from '@material-ui/icons/Send';
 import Button from '@material-ui/core/Button';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { useEffect } from 'react';
+import * as usersService from "../services/users.service";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,7 +44,7 @@ export default function SignUpOrLogIn(props) {
             }
             return true;
           });
-
+          
     })
     
     let emailRef = React.createRef();
@@ -58,13 +59,37 @@ export default function SignUpOrLogIn(props) {
             ...prevState,
             [name]: value
         }));
-        console.log(state)
 
     }
 
-    let onSubmit = event => {
+    //function to direction button click based on signing up
+    let handleSubmit = event => {
         event.preventDefault();
+        if (isSigningUp) {
+            registerNew()
+        } else {
+            login()
+        }
+    }
+
+    let login = () => {
+        let userInfo = state
+        usersService
+            .login(userInfo)
+            .then(response => {
+                console.log(response)
+            })
+    }
+
+    let registerNew = () => {
+        // event.preventDefault();
         console.log('calling API')
+        let userInfo = state;
+        usersService
+            .registerNew(userInfo)
+            .then(data => {
+                console.log(data)
+            })
         onSuccess('API response')
       };
 
@@ -97,8 +122,8 @@ export default function SignUpOrLogIn(props) {
     };
 
     return (
-        <div class="App-header">
-            <ValidatorForm className={classes.margin} onSubmit={onSubmit}>
+        <div className="App-header">
+            <ValidatorForm className={classes.margin}>
                 <TextValidator
                     className={classes.margin}
                     label={isSigningUp ? 'Registration Email' : 'Email'}
@@ -130,8 +155,8 @@ export default function SignUpOrLogIn(props) {
                     onChange={handleChange}
                     value={state.password}
                     name='password'
-                    validators={['matchRegexp:^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$']} //Decide on a regex here
-                    errorMessages={['Password should be at least 8 characters']}
+                    validators={['matchRegexp:^(?=.{8})']} 
+                    errorMessages={['Password should be at least 8 characters']}    //Decide on regex here
                     required
                     InputProps={{
                         startAdornment: (
@@ -175,11 +200,10 @@ export default function SignUpOrLogIn(props) {
                 ) : (
                     ''
                 )}
-
-                <Button type='submit' variant="outlined" color="primary" className={classes.button} startIcon={<SendIcon />}>
+                </ValidatorForm>
+                <Button type='submit' onClick={handleSubmit} variant="outlined" color="primary" className={classes.button} startIcon={<SendIcon />}>
                     {isSigningUp ? 'Sign Up' : 'Log In'}
                 </Button>
-                </ValidatorForm>
         </div>
     );
 }
